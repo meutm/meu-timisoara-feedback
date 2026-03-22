@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEU Timișoara 2026 — Participant Feedback</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+/* ── REPLACE THIS WITH YOUR APPS SCRIPT URL ── */
+/* See SCRIPT_URL constant in the JS below     */
+
+:root {
+  --navy:#003399;--navy-d:#00267a;--navy-m:#0044cc;--navy-xl:#001a5c;
+  --gold:#FFCC00;--gold-d:#e6b800;
+  --white:#fff;--off:#f6f8fd;--gray-50:#f1f4fb;--gray-100:#e4e9f5;
+  --gray-300:#c2cbe0;--gray-500:#8a96b4;--gray-700:#4a5478;--gray-900:#1a2140;
+  --green:#0d7a52;--green-bg:#e8f5ee;
+  --red:#c0392b;--red-bg:#fdf0ef;
+  --amber:#8a5c00;--amber-bg:#fff8e6;
+  --border:#dde3f0;
+  --radius:8px;--radius-lg:12px;--radius-xl:16px;
+  --shadow:0 2px 12px rgba(0,51,153,.08);
+  --shadow-lg:0 8px 32px rgba(0,51,153,.12);
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'DM Sans',-apple-system,sans-serif;
+  --transition:all .22s cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--off);color:var(--gray-900);line-height:1.65;-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing: grayscale; min-height:100vh}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--navy-xl);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;padding:0}
+@media(max-width:900px){.sidebar{display:none}}
+.sidebar-logo{padding:32px 28px 24px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);line-height:1.2;margin-bottom:4px}
+.sidebar-logo-sub{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.sidebar-progress{padding:20px 28px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-progress-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
+.progress-bar-wrap{height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.progress-pct{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);margin-top:6px}
+.sidebar-nav{padding:16px 0;flex:1}
+.nav-section{display:flex;align-items:flex-start;gap:12px;padding:9px 28px;cursor:pointer;transition:var(--transition);border-left:3px solid transparent;position:relative}
+.nav-section:hover{background:rgba(255,255,255,.04)}
+.nav-section.active{background:rgba(255,204,0,.07);border-left-color:var(--gold)}
+.nav-section.completed{opacity:.7}
+.nav-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(255,255,255,.4);flex-shrink:0;margin-top:2px;transition:var(--transition)}
+.nav-section.active .nav-dot{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.nav-section.completed .nav-dot{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
+.nav-section.completed .nav-dot::after{content:'✓';font-size:9px}
+.nav-section.completed .nav-dot span{display:none}
+.nav-info{}
+.nav-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.3}
+.nav-section.active .nav-title{color:var(--gold)}
+.nav-count{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
+.sidebar-footer{padding:20px 28px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.25);line-height:1.6}
+
+/* ── MAIN CONTENT ── */
+.main{padding:0;display:flex;flex-direction:column;min-height:100vh}
+
+/* ── MOBILE TOP BAR ── */
+.mobile-topbar{display:none;background:var(--navy);padding:16px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,51,.2)}
+@media(max-width:900px){.mobile-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}}
+.mobile-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--white)}
+.mobile-progress-wrap{flex:1;max-width:160px}
+.mobile-progress-track{height:3px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+.mobile-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease}
+.mobile-section-label{font-size:10px;color:rgba(255,255,255,.5);text-align:right;margin-top:4px}
+
+/* ── HERO HEADER ── */
+.form-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-m) 100%);padding:52px 56px 48px;position:relative;overflow:hidden}
+.form-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border:1px solid rgba(255,204,0,.1);border-radius:50%}
+.form-hero::after{content:'';position:absolute;bottom:-80px;left:40%;width:200px;height:200px;border:1px solid rgba(255,204,0,.06);border-radius:50%}
+@media(max-width:900px){.form-hero{padding:32px 24px 28px}}
+.hero-kicker{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;position:relative;z-index:1}
+.hero-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--white);line-height:1.05;margin-bottom:8px;position:relative;z-index:1}
+.hero-sub{font-family:var(--font-display);font-size:16px;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:28px;position:relative;z-index:1}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap;position:relative;z-index:1}
+.hero-stat .lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px}
+.hero-stat .val{font-size:14px;font-weight:600;color:var(--white)}
+.hero-stat .val em{color:var(--gold);font-style:normal}
+
+/* ── FORM SECTIONS ── */
+.form-body{flex:1;padding:40px 56px 80px}
+@media(max-width:900px){.form-body{padding:24px 20px 60px}}
+.section-wrap{display:none;animation:fadeSlide .35s ease both}
+.section-wrap.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ── SECTION HEADER ── */
+.sec-header{margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--border)}
+.sec-header-top{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.sec-badge{width:38px;height:38px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:15px;font-weight:700;flex-shrink:0}
+.sec-badge.gold-badge{background:var(--gold);color:var(--navy)}
+.sec-title{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:600;color:var(--gray-900)}
+.sec-desc{font-size:13px;color:var(--gray-500);line-height:1.7;max-width:560px}
+
+/* ── STRATEGY NOTE ── */
+.strategy-note{background:var(--navy);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:24px;display:flex;gap:12px;align-items:flex-start}
+.strategy-note svg{flex-shrink:0;margin-top:2px}
+.strategy-note-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.65}
+.strategy-note-text strong{color:var(--gold)}
+
+/* ── QUESTION CARD ── */
+.q{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 26px;margin-bottom:14px;transition:var(--transition)}
+.q:hover{box-shadow:var(--shadow)}
+.q-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.q-label-wrap{flex:1}
+.q-num{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin-bottom:5px}
+.q-text{font-size:14px;font-weight:500;color:var(--gray-900);line-height:1.6}
+.q-text .req{color:var(--red);margin-left:2px}
+.q-note{font-size:11px;color:var(--gray-500);font-style:italic;line-height:1.55;margin-top:5px}
+.q-type-badge{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;white-space:nowrap;margin-top:2px}
+.badge-scale{background:#e8f0fe;color:#1a56db}
+.badge-radio{background:var(--green-bg);color:var(--green)}
+.badge-matrix{background:#f0ecff;color:#5b21b6}
+.badge-open{background:var(--amber-bg);color:var(--amber)}
+.badge-check{background:var(--red-bg);color:var(--red)}
+.badge-text{background:var(--gray-50);color:var(--gray-700)}
+
+/* ── SCALE BUTTONS (1-10, 0-10, 1-5) ── */
+.scale-wrap{display:flex;flex-direction:column;gap:8px}
+.scale-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--gray-500)}
+.scale-buttons{display:flex;flex-wrap:wrap;gap:6px}
+.scale-btn{width:40px;height:40px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--white);color:var(--gray-700);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+.scale-btn:hover{border-color:var(--navy);color:var(--navy)}
+.scale-btn.selected{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.scale-btn.selected.gold-sel{background:var(--gold);border-color:var(--gold-d);color:var(--navy)}
+@media(max-width:500px){.scale-btn{width:34px;height:34px;font-size:12px}}
+#q39-checks {
+  grid-template-columns: 1fr !important;
+}
+
+/* ── RADIO ── */
+.radio-list{display:flex;flex-direction:column;gap:8px}
+.radio-opt{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--radius);border:1.5px solid var(--border);cursor:pointer;transition:var(--transition);background:var(--white)}
+.radio-opt:hover{border-color:var(--navy);background:var(--gray-50)}
+.radio-opt.selected{border-color:var(--navy);background:#f0f4ff}
+.radio-opt input[type=radio]{display:none}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid var(--gray-300);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.radio-opt.selected .radio-circle{border-color:var(--navy);background:var(--navy)}
+.radio-opt.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
+.radio-text{font-size:13px;color:var(--gray-700);line-height:1.5}
+.radio-opt.selected .radio-text{color:var(--navy);font-weight:500}
+
+/* ── CHECKBOX ── */
+.check-list{display:flex;flex-direction:column;gap:8px}
+.check-opt{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:var(--radius);border:1.5px solid var(--border);cursor:pointer;transition:var(--transition);background:var(--white)}
+.check-opt:hover{border-color:var(--navy);background:var(--gray-50)}
+.check-opt.checked{border-color:var(--navy);background:#f0f4ff}
+.check-opt input[type=checkbox]{display:none}
+.check-sq{width:16px;height:16px;border-radius:4px;border:2px solid var(--gray-300);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--transition);margin-top:1px}
+.check-opt.checked .check-sq{border-color:var(--navy);background:var(--navy)}
+.check-opt.checked .check-sq::after{content:'✓';font-size:9px;color:white;font-weight:700}
+.check-text{font-size:13px;color:var(--gray-700);line-height:1.5}
+.check-opt.checked .check-text{color:var(--navy);font-weight:500}
+
+/* ── MATRIX ── */
+.matrix-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.matrix{width:100%;border-collapse:collapse;min-width:480px}
+.matrix thead th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500);padding:8px 6px;text-align:center;border-bottom:2px solid var(--border)}
+.matrix thead th:first-child{text-align:left;min-width:200px;max-width:240px}
+.matrix tbody tr{border-bottom:1px solid var(--gray-50)}
+.matrix tbody tr:last-child{border-bottom:none}
+.matrix tbody tr:hover{background:var(--gray-50)}
+.matrix td{padding:9px 6px;text-align:center;vertical-align:middle}
+.matrix td:first-child{text-align:left;font-size:12.5px;color:var(--gray-700);padding-left:0;line-height:1.4}
+.matrix-radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gray-300);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition)}
+.matrix-radio.sel{background:var(--navy);border-color:var(--navy)}
+.matrix-radio.sel::after{content:'';width:7px;height:7px;border-radius:50%;background:white}
+.matrix-radio:hover{border-color:var(--navy)}
+.na-badge{font-size:10px;padding:2px 7px;border-radius:10px;border:1px solid var(--border);color:var(--gray-500);cursor:pointer;transition:var(--transition);display:inline-block}
+.na-badge.sel{background:var(--gray-100);border-color:var(--gray-300);color:var(--gray-700);font-weight:600}
+
+/* ── TEXTAREA & INPUT ── */
+textarea,input[type=text]{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font-body);font-size:13px;color:var(--gray-900);background:var(--white);resize:vertical;transition:var(--transition);outline:none;line-height:1.6}
+textarea{min-height:80px}
+textarea:focus,input[type=text]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,51,153,.08)}
+textarea::placeholder,input[type=text]::placeholder{color:var(--gray-300);font-style:italic}
+
+/* ── NAVIGATION BUTTONS ── */
+.nav-buttons{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:40px;padding-top:28px;border-top:1px solid var(--border)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-size:13px;font-weight:600;padding:11px 24px;border-radius:var(--radius);border:none;cursor:pointer;transition:var(--transition);letter-spacing:.03em;text-decoration:none}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy-d);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,51,153,.25)}
+.btn-gold{background:var(--gold);color:var(--navy);font-weight:700}
+.btn-gold:hover{background:var(--gold-d);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,204,0,.3)}
+.btn-outline{background:transparent;color:var(--gray-700);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+.btn-lg{padding:14px 32px;font-size:14px}
+.btn svg{width:14px;height:14px}
+
+/* ── VALIDATION ── */
+.q.error{border-color:#e74c3c;box-shadow:0 0 0 3px rgba(231,76,60,.08)}
+.err-msg{font-size:11px;color:var(--red);margin-top:8px;display:none;font-weight:500}
+.q.error .err-msg{display:block}
+
+/* ── SUCCESS STATE ── */
+.success-wrap{text-align:center;padding:80px 40px;animation:fadeSlide .5s ease both}
+.success-icon{width:72px;height:72px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;border:2px solid rgba(13,122,82,.2)}
+.success-title{font-family:var(--font-display);font-size:2.5rem;font-weight:600;color:var(--gray-900);margin-bottom:12px}
+.success-sub{font-size:15px;color:var(--gray-500);max-width:440px;margin:0 auto 32px;line-height:1.7}
+.success-detail{background:var(--navy);border-radius:var(--radius-lg);padding:24px 28px;max-width:500px;margin:0 auto;text-align:left}
+.success-detail p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.72}
+.success-detail em{color:var(--gold);font-style:normal;font-weight:600}
+
+/* ── SUBMIT LOADING ── */
+.btn-loading{position:relative;pointer-events:none;opacity:.8}
+.btn-loading::after{content:'';width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite;margin-left:4px;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── DIVIDER ── */
+.q-divider{height:1px;background:var(--border);margin:20px 0}
+
+/* ── REQUIRED NOTE ── */
+.required-note{font-size:11px;color:var(--gray-500);margin-bottom:24px}
+.required-note span{color:var(--red)}
+
+input[type=text], textarea, select {
+  font-size: 16px !important;
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-title">MEU Timișoara 2026</div>
+    <div class="sidebar-logo-sub">Participant Feedback</div>
+  </div>
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-label">Your progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-pct" id="progressPct">0 of 10 sections complete</div>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <!-- injected by JS -->
+  </nav>
+  <div class="sidebar-footer">
+    Your responses are anonymous and will be read by the organising team. Thank you for your time.
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main">
+
+  <!-- Mobile top bar -->
+  <div class="mobile-topbar">
+    <div class="mobile-title">MEU 2026 · Feedback</div>
+    <div class="mobile-progress-wrap">
+      <div class="mobile-progress-track"><div class="mobile-progress-fill" id="mobileProgressBar" style="width:0%"></div></div>
+      <div class="mobile-section-label" id="mobileSectionLabel">Section 1 of 10</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="form-hero" id="formHero">
+    <div class="hero-kicker">Model European Union · Timișoara, Romania · March 2026</div>
+    <h1 class="hero-title">Participant Feedback Survey</h1>
+    <p class="hero-sub">Your honest assessment, not your politeness.</p>
+    <div class="hero-meta">
+      <div class="hero-stat"><div class="lbl">Questions</div><div class="val"><em>50</em> total</div></div>
+      <div class="hero-stat"><div class="lbl">Sections</div><div class="val"><em>10</em> thematic</div></div>
+      <div class="hero-stat"><div class="lbl">Est. time</div><div class="val"><em>12 – 18</em> min</div></div>
+      <div class="hero-stat"><div class="lbl">Anonymity</div><div class="val">Fully <em>anonymous</em></div></div>
+    </div>
+  </div>
+
+  <div class="form-body">
+    <div class="required-note">Fields marked <span>★</span> are required.</div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 1 — Overall Experience
+    ════════════════════════════════════════ -->
+    <div class="section-wrap active" id="section-0">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">1</div>
+          <h2 class="sec-title">Overall Experience</h2>
+        </div>
+        <p class="sec-desc">Before we get into specifics, tell us how you felt about MEU Timișoara 2026 in broad strokes.</p>
+      </div>
+
+      <!-- Q1 -->
+      <div class="q" id="q1-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q1</div>
+            <div class="q-text">How would you rate your <strong>overall experience</strong> at MEU Timișoara 2026?<span class="req">★</span></div>
+            <div class="q-note">Consider everything — the simulation, the people, the organisation, the social events.</div>
+          </div>
+          <div class="q-type-badge badge-scale">1–10 Scale</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q1-scale">
+            <button class="scale-btn" data-val="1" onclick="selectScale('q1',1)">1</button>
+            <button class="scale-btn" data-val="2" onclick="selectScale('q1',2)">2</button>
+            <button class="scale-btn" data-val="3" onclick="selectScale('q1',3)">3</button>
+            <button class="scale-btn" data-val="4" onclick="selectScale('q1',4)">4</button>
+            <button class="scale-btn" data-val="5" onclick="selectScale('q1',5)">5</button>
+            <button class="scale-btn" data-val="6" onclick="selectScale('q1',6)">6</button>
+            <button class="scale-btn" data-val="7" onclick="selectScale('q1',7)">7</button>
+            <button class="scale-btn" data-val="8" onclick="selectScale('q1',8,true)">8</button>
+            <button class="scale-btn" data-val="9" onclick="selectScale('q1',9,true)">9</button>
+            <button class="scale-btn" data-val="10" onclick="selectScale('q1',10,true)">10</button>
+          </div>
+          <div class="scale-labels"><span>Deeply disappointing</span><span>Truly exceptional</span></div>
+        </div>
+        <div class="err-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- Q2 NPS -->
+      <div class="q" id="q2-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q2 — Net Promoter Score</div>
+            <div class="q-text">How likely are you to <strong>recommend MEU Timișoara</strong> to a friend or colleague?<span class="req">★</span></div>
+            <div class="q-note">0 = I would actively discourage them · 10 = I would call them tonight about it.</div>
+          </div>
+          <div class="q-type-badge badge-scale">NPS 0–10</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q2-scale">
+            <button class="scale-btn" data-val="0" onclick="selectScale('q2',0)">0</button>
+            <button class="scale-btn" data-val="1" onclick="selectScale('q2',1)">1</button>
+            <button class="scale-btn" data-val="2" onclick="selectScale('q2',2)">2</button>
+            <button class="scale-btn" data-val="3" onclick="selectScale('q2',3)">3</button>
+            <button class="scale-btn" data-val="4" onclick="selectScale('q2',4)">4</button>
+            <button class="scale-btn" data-val="5" onclick="selectScale('q2',5)">5</button>
+            <button class="scale-btn" data-val="6" onclick="selectScale('q2',6)">6</button>
+            <button class="scale-btn" data-val="7" onclick="selectScale('q2',7)">7</button>
+            <button class="scale-btn" data-val="8" onclick="selectScale('q2',8,true)">8</button>
+            <button class="scale-btn" data-val="9" onclick="selectScale('q2',9,true)">9</button>
+            <button class="scale-btn" data-val="10" onclick="selectScale('q2',10,true)">10</button>
+          </div>
+          <div class="scale-labels">
+            <span style="color:var(--red);font-weight:600">Detractors (0–6)</span>
+            <span style="color:var(--amber);font-weight:600">Passives (7–8)</span>
+            <span style="color:var(--green);font-weight:600">Promoters (9–10)</span>
+          </div>
+        </div>
+        <div class="err-msg">Please select a score before continuing.</div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q" id="q3-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q3</div>
+            <div class="q-text">Did MEU Timișoara 2026 <strong>meet your expectations</strong>?<span class="req">★</span></div>
+            <div class="q-note">Think about what you expected when you signed up, not an ideal in the abstract.</div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q3-radio">
+          <label class="radio-opt" onclick="selectRadio('q3',this,'Exceeded expectations significantly')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It <strong>exceeded</strong> my expectations significantly</div></label>
+          <label class="radio-opt" onclick="selectRadio('q3',this,'Met expectations')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It <strong>met</strong> my expectations</div></label>
+          <label class="radio-opt" onclick="selectRadio('q3',this,'Partially met expectations')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It <strong>partially</strong> met my expectations — some areas fell short</div></label>
+          <label class="radio-opt" onclick="selectRadio('q3',this,'Did not meet expectations')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It <strong>did not</strong> meet my expectations</div></label>
+          <label class="radio-opt" onclick="selectRadio('q3',this,'Came in without clear expectations')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I came in without clear expectations</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q4</div>
+            <div class="q-text">In three words or a short phrase, how would you <strong>describe MEU Timișoara 2026</strong> to someone who asks?<span class="req">★</span></div>
+            <div class="q-note">Be honest — "Exhausting but worth it" is a perfectly valid answer.</div>
+          </div>
+          <div class="q-type-badge badge-text">Short text</div>
+        </div>
+        <input type="text" id="q4" placeholder='e.g. "Intense, stimulating, and underslept"'>
+        <div class="err-msg">Please write a short answer before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <div></div>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(0)">
+          Next: The Simulation
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 2 — Simulation
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-1">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">2</div>
+          <h2 class="sec-title">The Simulation</h2>
+        </div>
+        <p class="sec-desc">The simulation is the core product. These questions separate quality signals from satisfaction signals.</p>
+      </div>
+
+      <!-- Q5 Matrix -->
+      <div class="q" id="q5-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q5</div>
+            <div class="q-text">Rate the following aspects of the <strong>simulation experience</strong>.<span class="req">★</span></div>
+            <div class="q-note">1 = Poor · 5 = Excellent. All rows required.</div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Criterion</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+            <tbody id="q5-matrix">
+              <tr data-key="Q5 - Simulation realism"><td>Realism of the EU legislative process</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Fellow participants preparation"><td>Quality of preparation by fellow participants</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Topic relevance"><td>Relevance and complexity of the policy topics</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Chairs effectiveness"><td>Effectiveness of the chairs and facilitators</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Press corps quality"><td>Quality of the press corps / media coverage</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Rules clarity"><td>Clarity and fairness of the rules of procedure</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q5 - Pacing"><td>Pacing — balance of debate, amendment, and voting time</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all criteria before continuing.</div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q6</div>
+            <div class="q-text">Which policy topic — <strong>MyHealth@EU</strong> or the <strong>Schengen Military Corridor</strong> — generated the more interesting debate, and why?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q6" placeholder="Your answer..." rows="3"></textarea>
+        <div class="err-msg">Please write your answer before continuing.</div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="q" id="q7-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q7</div>
+            <div class="q-text">Did you feel <strong>adequately prepared</strong> for the role you were assigned?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q7-radio">
+          <label class="radio-opt" onclick="selectRadio('q7',this,'Fully prepared and confident')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — I felt fully prepared and confident</div></label>
+          <label class="radio-opt" onclick="selectRadio('q7',this,'Mostly prepared, had to improvise occasionally')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Mostly — I had to improvise in a few moments but managed</div></label>
+          <label class="radio-opt" onclick="selectRadio('q7',this,'Partially prepared, underprepared in specific areas')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Partially — I felt underprepared in specific areas</div></label>
+          <label class="radio-opt" onclick="selectRadio('q7',this,'Felt lost for a significant portion')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No — I felt lost for a significant portion of the simulation</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="q" id="q8-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q8</div>
+            <div class="q-text">How well did the simulation improve your <strong>understanding of how EU decisions are actually made</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">1–5 Scale</div>
+        </div>
+        <div class="radio-list" id="q8-radio">
+          <label class="radio-opt" onclick="selectRadio('q8',this,'1 - No improvement')"><input type="radio"><div class="radio-circle"></div><div class="radio-text"><strong>1</strong> · I don't feel like I learned anything new about EU processes</div></label>
+          <label class="radio-opt" onclick="selectRadio('q8',this,'2 - Marginal improvement')"><input type="radio"><div class="radio-circle"></div><div class="radio-text"><strong>2</strong> · Marginal improvement in understanding</div></label>
+          <label class="radio-opt" onclick="selectRadio('q8',this,'3 - Clearer picture of broad strokes')"><input type="radio"><div class="radio-circle"></div><div class="radio-text"><strong>3</strong> · I got a clearer picture of the broad strokes</div></label>
+          <label class="radio-opt" onclick="selectRadio('q8',this,'4 - Meaningfully better understanding')"><input type="radio"><div class="radio-circle"></div><div class="radio-text"><strong>4</strong> · I understand the process meaningfully better now</div></label>
+          <label class="radio-opt" onclick="selectRadio('q8',this,'5 - Genuinely illuminating')"><input type="radio"><div class="radio-circle"></div><div class="radio-text"><strong>5</strong> · The simulation was genuinely illuminating — I finally get it</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q9</div>
+            <div class="q-text">Describe the <strong>most intellectually challenging moment</strong> of the simulation for you personally.</div>
+            <div class="q-note">A debate argument you had to defend, a procedural situation, a tough negotiation, or a moment when you realised you didn't know something you thought you did.</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q9" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q10 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q10</div>
+            <div class="q-text">If you could <strong>change one thing about the simulation format</strong>, what would it be?</div>
+            <div class="q-note">Be specific — "more debate time" is less useful than describing exactly which round felt rushed and why.</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q10" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q11 -->
+      <div class="q" id="q11-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q11</div>
+            <div class="q-text">How would you rate the <strong>overall quality of the simulation</strong> as a learning experience?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-scale">1–5 Scale</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q11-scale">
+            <button class="scale-btn" onclick="selectScale('q11',1)">1</button>
+            <button class="scale-btn" onclick="selectScale('q11',2)">2</button>
+            <button class="scale-btn" onclick="selectScale('q11',3)">3</button>
+            <button class="scale-btn" onclick="selectScale('q11',4,true)">4</button>
+            <button class="scale-btn" onclick="selectScale('q11',5,true)">5</button>
+          </div>
+          <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
+        </div>
+        <div class="err-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="q" id="q12-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q12</div>
+            <div class="q-text">Were the <strong>YouthPass / Erasmus evaluation criteria</strong> explained clearly enough?</div>
+            <div class="q-note">Select "N/A" if you were not an Erasmus participant.</div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q12-radio">
+          <label class="radio-opt" onclick="selectRadio('q12',this,'Yes, clear from the start')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — it was clear from the start</div></label>
+          <label class="radio-opt" onclick="selectRadio('q12',this,'Partially, broad terms only')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Partially — I understood it in broad terms but not the specifics</div></label>
+          <label class="radio-opt" onclick="selectRadio('q12',this,'No, not clear')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No — I was not sure what was being evaluated or how</div></label>
+          <label class="radio-opt" onclick="selectRadio('q12',this,'N/A - Not an Erasmus participant')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">N/A — I was not an Erasmus participant</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(1)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(1)">Next: Workshops <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 3 — Workshops
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-2">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">3</div>
+          <h2 class="sec-title">Workshops &amp; Speakers</h2>
+        </div>
+        <p class="sec-desc">Did the workshops add genuine value, or were they disconnected from the simulation?</p>
+      </div>
+
+      <!-- Q13 Matrix -->
+      <div class="q" id="q13-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q13</div>
+            <div class="q-text">Rate each <strong>workshop or speaker session</strong> you attended.<span class="req">★</span></div>
+            <div class="q-note">1 = Poor · 5 = Excellent · N/A = Did not attend</div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5 / N/A</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Session</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>N/A</th></tr></thead>
+            <tbody id="q13-matrix">
+              <tr data-key="Q13 - Workshop Alina Girbea"><td>Workshop with Alina Gîrbea (Wednesday, 25 March)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q13 - Workshop Nicu Stefanuta"><td>Workshop with Nicu Ștefănuță (Thursday, 26 March)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q13 - Workshop Simina Tulbure"><td>Workshop with Simina Tulbure (Friday, 27 March)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all workshops (or select N/A) before continuing.</div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q14</div>
+            <div class="q-text">Which workshop had the <strong>greatest impact on you</strong>, and what specifically made it valuable?</div>
+            <div class="q-note">If none stood out, tell us that too. We want an honest assessment.</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q14" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q15 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q15</div>
+            <div class="q-text">What <strong>topics or speakers</strong> would you like to see featured in a future MEU Timișoara that were absent this year?</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q15" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q16 -->
+      <div class="q" id="q16-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q16</div>
+            <div class="q-text">How well did the <strong>workshops integrate with the simulation</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q16-radio">
+          <label class="radio-opt" onclick="selectRadio('q16',this,'Very well - directly improved simulation performance')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Very well — the workshops directly improved how I approached the simulation</div></label>
+          <label class="radio-opt" onclick="selectRadio('q16',this,'Somewhat - some overlap, felt mostly separate')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Somewhat — some overlap, but workshops and simulation felt mostly separate</div></label>
+          <label class="radio-opt" onclick="selectRadio('q16',this,'Not really - interesting but disconnected')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Not really — workshops were interesting but disconnected from simulation work</div></label>
+          <label class="radio-opt" onclick="selectRadio('q16',this,'Did not attend workshops')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I did not attend any workshops</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(2)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(2)">Next: Organisation <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 4 — Organisation
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-3">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">4</div>
+          <h2 class="sec-title">Organisation &amp; Communication</h2>
+        </div>
+        <p class="sec-desc">The unglamorous backbone of the event — how well did we run it?</p>
+      </div>
+
+      <!-- Q17 Matrix -->
+      <div class="q" id="q17-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q17</div>
+            <div class="q-text">Rate the following <strong>operational aspects</strong>.<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Aspect</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+            <tbody id="q17-matrix">
+              <tr data-key="Q17 - Pre-event communication"><td>Pre-event communication (before you arrived)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q17 - Programme clarity"><td>Clarity and accuracy of the published programme</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q17 - Team responsiveness"><td>Responsiveness of the organising team during the event</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q17 - Handling changes"><td>Handling of last-minute changes or unexpected situations</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q17 - Opening ceremony"><td>Quality of the opening ceremony</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q17 - Closing ceremony"><td>Quality of the closing ceremony</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all criteria before continuing.</div>
+      </div>
+
+      <!-- Q18 -->
+      <div class="q" id="q18-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q18</div>
+            <div class="q-text">How would you rate the <strong>overall quality of the organising team</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-scale">1–5 Scale</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q18-scale">
+            <button class="scale-btn" onclick="selectScale('q18',1)">1</button>
+            <button class="scale-btn" onclick="selectScale('q18',2)">2</button>
+            <button class="scale-btn" onclick="selectScale('q18',3)">3</button>
+            <button class="scale-btn" onclick="selectScale('q18',4,true)">4</button>
+            <button class="scale-btn" onclick="selectScale('q18',5,true)">5</button>
+          </div>
+          <div class="scale-labels"><span>Very poor</span><span>Outstanding</span></div>
+        </div>
+        <div class="err-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- Q19 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q19</div>
+            <div class="q-text">Was there a moment where you felt <strong>information was unclear, missing, or communicated too late</strong>?</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q19" placeholder='Describe it, or write "No significant issues"' rows="3"></textarea>
+      </div>
+
+      <!-- Q20 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q20</div>
+            <div class="q-text">What is the <strong>single most important operational improvement</strong> you would recommend?</div>
+            <div class="q-note">Be concrete. "Be more organised" is less helpful than a specific example of what went wrong and what would have fixed it.</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q20" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q21 -->
+      <div class="q" id="q21-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q21</div>
+            <div class="q-text">How did you experience the <strong>Safe Person mechanism</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q21-radio">
+          <label class="radio-opt" onclick="selectRadio('q21',this,'Made me feel more secure')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — knowing there were Safe Persons made me feel more secure</div></label>
+          <label class="radio-opt" onclick="selectRadio('q21',this,'Did not change comfort level but appreciated it')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It didn't change my comfort level but I appreciated it being there</div></label>
+          <label class="radio-opt" onclick="selectRadio('q21',this,'Not fully aware during the event')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I was not fully aware of the Safe Person mechanism during the event</div></label>
+          <label class="radio-opt" onclick="selectRadio('q21',this,'Needed to use it')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I needed to use it</div></label>
+          <label class="radio-opt" onclick="selectRadio('q21',this,'Prefer not to say')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I prefer not to say</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(3)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(3)">Next: Logistics <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 5 — Accommodation & Meals
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-4">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">5</div>
+          <h2 class="sec-title">Accommodation, Transport &amp; Meals</h2>
+        </div>
+        <p class="sec-desc">The logistics that make or break a participant's daily experience.</p>
+      </div>
+
+      <!-- Q22 -->
+      <div class="q" id="q22-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q22</div>
+            <div class="q-text">Which accommodation were you assigned to?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q22-radio">
+          <label class="radio-opt" onclick="selectRadio('q22',this,'Cămin Camelia')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Cămin Camelia</div></label>
+          <label class="radio-opt" onclick="selectRadio('q22',this,'FITT – Fundația Județeană pentru Tineret Timiș')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">FITT – Fundația Județeană pentru Tineret Timiș</div></label>
+          <label class="radio-opt" onclick="selectRadio('q22',this,'Own accommodation')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I arranged my own accommodation</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q23 Matrix -->
+      <div class="q" id="q23-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q23</div>
+            <div class="q-text">Rate the following aspects of your <strong>accommodation experience</strong>.<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Aspect</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+            <tbody id="q23-matrix">
+              <tr data-key="Q23 - Room cleanliness"><td>Cleanliness of the room</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q23 - Sleeping comfort"><td>Comfort of the sleeping arrangements</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q23 - Facilities access"><td>Access to facilities (bathroom, kitchen, common areas)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q23 - Check-in process"><td>Check-in process (clarity, ease of access)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q23 - Room assignment"><td>Room assignment (suitability of roommates / room type)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all criteria before continuing.</div>
+      </div>
+
+      <!-- Q24 -->
+      <div class="q" id="q24-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q24</div>
+            <div class="q-text">How easy was it to navigate <strong>public transport</strong> from accommodation to the event venues?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q24-radio">
+          <label class="radio-opt" onclick="selectRadio('q24',this,'Very easy, no issues')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Very easy — the information provided was clear and I had no issues</div></label>
+          <label class="radio-opt" onclick="selectRadio('q24',this,'Mostly fine, minor confusion')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Mostly fine — minor confusion but I figured it out</div></label>
+          <label class="radio-opt" onclick="selectRadio('q24',this,'Difficult, caused stress or lateness')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Difficult — I was confused and it caused me to be late or stressed</div></label>
+          <label class="radio-opt" onclick="selectRadio('q24',this,'Did not use public transport')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I didn't use public transport — I walked / used taxi or rideshare</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q25 -->
+      <div class="q" id="q25-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q25</div>
+            <div class="q-text">Rate the <strong>quality of meals</strong> provided during the event.<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-scale">1–5 Scale</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q25-scale">
+            <button class="scale-btn" onclick="selectScale('q25',1)">1</button>
+            <button class="scale-btn" onclick="selectScale('q25',2)">2</button>
+            <button class="scale-btn" onclick="selectScale('q25',3)">3</button>
+            <button class="scale-btn" onclick="selectScale('q25',4,true)">4</button>
+            <button class="scale-btn" onclick="selectScale('q25',5,true)">5</button>
+          </div>
+          <div class="scale-labels"><span>Unacceptable</span><span>Excellent</span></div>
+        </div>
+        <div class="err-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- Q26 -->
+      <div class="q" id="q26-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q26</div>
+            <div class="q-text">Were your <strong>dietary requirements</strong> accommodated appropriately?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q26-radio">
+          <label class="radio-opt" onclick="selectRadio('q26',this,'Yes, fully met')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — my needs were fully met</div></label>
+          <label class="radio-opt" onclick="selectRadio('q26',this,'Partially, some gaps')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Partially — there were some gaps or inconsistencies</div></label>
+          <label class="radio-opt" onclick="selectRadio('q26',this,'No, not accommodated')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No — my dietary needs were not accommodated</div></label>
+          <label class="radio-opt" onclick="selectRadio('q26',this,'No specific dietary requirements')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I had no specific dietary requirements</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q27 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q27</div>
+            <div class="q-text">Any specific feedback on <strong>food, meals, or catering arrangements</strong>?</div>
+          </div>
+          <div class="q-type-badge badge-open">Optional</div>
+        </div>
+        <textarea id="q27" placeholder="Your answer (optional)..." rows="2"></textarea>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(4)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(4)">Next: Social Events <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 6 — Social Events
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-5">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">6</div>
+          <h2 class="sec-title">Social Events</h2>
+        </div>
+        <p class="sec-desc">After hours — the social programme and how it balanced with the simulation work.</p>
+      </div>
+
+      <!-- Q28 -->
+      <div class="q" id="q28-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q28</div>
+            <div class="q-text">Which social events did you attend?<span class="req">★</span></div>
+            <div class="q-note">Select all that apply.</div>
+          </div>
+          <div class="q-type-badge badge-check">Checkboxes</div>
+        </div>
+        <div class="check-list" id="q28-checks">
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Gala Night — EuroFeast, Wednesday 25 March (FITT)</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Football match — Romania vs. Turkey, Thursday 26 March</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Social Night — Mafia Night at The 80's Pub, Friday 27 March</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Social Night — Karaoke at Josefin Pub, Friday 27 March</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Clubbing Night — #altfelclub, Saturday 28 March</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q28')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">I did not attend any social events</div></label>
+        </div>
+        <div class="err-msg">Please select at least one option before continuing.</div>
+      </div>
+
+      <!-- Q29 Matrix -->
+      <div class="q" id="q29-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q29</div>
+            <div class="q-text">Rate each social event you attended.<span class="req">★</span></div>
+            <div class="q-note">Select N/A for events you did not attend.</div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5 / N/A</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Event</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>N/A</th></tr></thead>
+            <tbody id="q29-matrix">
+              <tr data-key="Q29 - Gala Night rating"><td>Gala Night (Wednesday)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q29 - Football match rating"><td>Football match (Thursday)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q29 - Mafia Night rating"><td>Mafia Night (Friday)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q29 - Karaoke rating"><td>Karaoke (Friday)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q29 - Clubbing Night rating"><td>Clubbing Night (Saturday)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all events (or select N/A) before continuing.</div>
+      </div>
+
+      <!-- Q30 -->
+      <div class="q" id="q30-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q30</div>
+            <div class="q-text">How well did the <strong>social programme complement the simulation work</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-scale">1–5 Scale</div>
+        </div>
+        <div class="scale-wrap">
+          <div class="scale-buttons" id="q30-scale">
+            <button class="scale-btn" onclick="selectScale('q30',1)">1</button>
+            <button class="scale-btn" onclick="selectScale('q30',2)">2</button>
+            <button class="scale-btn" onclick="selectScale('q30',3)">3</button>
+            <button class="scale-btn" onclick="selectScale('q30',4,true)">4</button>
+            <button class="scale-btn" onclick="selectScale('q30',5,true)">5</button>
+          </div>
+          <div class="scale-labels"><span>Not at all</span><span>Perfectly balanced</span></div>
+        </div>
+        <div class="err-msg">Please select a rating before continuing.</div>
+      </div>
+
+      <!-- Q31 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q31</div>
+            <div class="q-text">Is there a social event format you would <strong>add, remove, or significantly change</strong> for the next edition?</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q31" placeholder="Your answer..." rows="3"></textarea>
+      </div>
+
+      <!-- Q32 -->
+      <div class="q" id="q32-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q32</div>
+            <div class="q-text">Did you find the <strong>entry fees and individual payment model</strong> fair and clearly communicated?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q32-radio">
+          <label class="radio-opt" onclick="selectRadio('q32',this,'Yes, clear and appropriate')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — everything was clear and the pricing felt appropriate</div></label>
+          <label class="radio-opt" onclick="selectRadio('q32',this,'Mostly clear, wished some events were included')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Mostly — the model was clear but I wish some events were included in the fee</div></label>
+          <label class="radio-opt" onclick="selectRadio('q32',this,'Pricing surprised me')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">The pricing surprised me — I didn't expect to pay as much as I did</div></label>
+          <label class="radio-opt" onclick="selectRadio('q32',this,'Cost was a factor in not attending')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I chose not to attend social events — cost was a factor</div></label>
+          <label class="radio-opt" onclick="selectRadio('q32',this,'Prefer not to comment')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I prefer not to comment on this</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(5)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(5)">Next: Digital Guide <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 7 — Digital Tools
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-6">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">7</div>
+          <h2 class="sec-title">Digital Tools — The Participant Guide</h2>
+        </div>
+        <p class="sec-desc">This section refers to the participant guide website. Your feedback helps us build a better digital experience for the next edition.</p>
+      </div>
+
+      <!-- Q33 -->
+      <div class="q" id="q33-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q33</div>
+            <div class="q-text">How frequently did you use the <strong>MEU Timișoara 2026 participant guide</strong> website?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q33-radio">
+          <label class="radio-opt" onclick="selectRadio('q33',this,'Frequently, go-to reference')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Frequently — it was my go-to reference throughout the event</div></label>
+          <label class="radio-opt" onclick="selectRadio('q33',this,'Occasionally, a few times')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Occasionally — I checked it a few times when I needed specific info</div></label>
+          <label class="radio-opt" onclick="selectRadio('q33',this,'Rarely, once or twice')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Rarely — I only looked at it once or twice</div></label>
+          <label class="radio-opt" onclick="selectRadio('q33',this,'Never')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Never — I did not use it</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q34 Matrix -->
+      <div class="q" id="q34-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q34</div>
+            <div class="q-text">Rate the following <strong>sections of the participant guide</strong>.<span class="req">★</span></div>
+            <div class="q-note">Select N/A for sections you didn't use.</div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5 / N/A</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Section</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>N/A</th></tr></thead>
+            <tbody id="q34-matrix">
+              <tr data-key="Q34 - Agenda section rating"><td>Agenda / schedule (day-by-day tabs)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Accommodation section rating"><td>Accommodation info &amp; check-in procedure</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Transport section rating"><td>Transport routes (accommodation → venues)</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - EU map rating"><td>EU map with Council ministers</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Hemicycle rating"><td>Hemicycle seating chart with EP delegates</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Floor plan rating"><td>Floor plan / room assignments</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Checklist rating"><td>What to bring checklist</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Social events section rating"><td>Social events information</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Emergency section rating"><td>Emergency contacts &amp; safety section</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+              <tr data-key="Q34 - Overall design rating"><td>Overall design, usability, and load speed</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="na-badge" onclick="matrixNASelect(this)">N/A</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all sections (or select N/A) before continuing.</div>
+      </div>
+
+      <!-- Q35 -->
+      <div class="q" id="q35-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q35</div>
+            <div class="q-text">Did you add the participant guide to your <strong>phone's home screen</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q35-radio">
+          <label class="radio-opt" onclick="selectRadio('q35',this,'Yes, added and convenient')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — I added it and it was convenient</div></label>
+          <label class="radio-opt" onclick="selectRadio('q35',this,'Tried but had difficulty')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I tried but had difficulty following the instructions</div></label>
+          <label class="radio-opt" onclick="selectRadio('q35',this,'Did not add, used browser link')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I didn't add it — I just opened the browser link each time</div></label>
+          <label class="radio-opt" onclick="selectRadio('q35',this,'Did not know this feature existed')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I didn't know this feature existed</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q36 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q36</div>
+            <div class="q-text">What <strong>features or information</strong> were you looking for in the guide that you couldn't find?</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q36" placeholder="Your answer..." rows="2"></textarea>
+      </div>
+
+      <!-- Q37 -->
+      <div class="q" id="q37-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q37</div>
+            <div class="q-text">Would you have wanted a <strong>printed programme</strong> in addition to the digital guide?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q37-radio">
+          <label class="radio-opt" onclick="selectRadio('q37',this,'Digital-only was sufficient')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Digital-only was perfectly sufficient</div></label>
+          <label class="radio-opt" onclick="selectRadio('q37',this,'Printed would have been a useful complement')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">A printed programme would have been a useful complement</div></label>
+          <label class="radio-opt" onclick="selectRadio('q37',this,'Preferred printed as primary format')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I would have preferred printed materials as the primary format</div></label>
+          <label class="radio-opt" onclick="selectRadio('q37',this,'Had connectivity issues')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">I had connectivity issues that made the digital guide hard to use</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(6)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(6)">Next: Personal Development <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 8 — Personal Development
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-7">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge">8</div>
+          <h2 class="sec-title">Personal Development &amp; Impact</h2>
+        </div>
+        <p class="sec-desc">What did you actually take away? What shifted for you?</p>
+      </div>
+
+      <!-- Q38 Matrix -->
+      <div class="q" id="q38-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q38</div>
+            <div class="q-text">Rate the <strong>personal impact</strong> of MEU Timișoara 2026 in each dimension.<span class="req">★</span></div>
+            <div class="q-note">1 = No impact · 5 = Significant impact</div>
+          </div>
+          <div class="q-type-badge badge-matrix">Matrix · 1–5</div>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead><tr><th>Dimension</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+            <tbody id="q38-matrix">
+              <tr data-key="Q38 - EU understanding impact"><td>Deeper understanding of EU institutions and processes</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q38 - Public speaking impact"><td>Public speaking and argumentation skills</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q38 - Negotiation impact"><td>Negotiation and consensus-building</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q38 - Cross-cultural impact"><td>Cross-cultural communication and empathy</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q38 - Connections quality"><td>Quality of professional and personal connections made</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+              <tr data-key="Q38 - Self-confidence impact"><td>Self-confidence in high-stakes, formal settings</td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td><td><div class="matrix-radio" onclick="matrixSelect(this)"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="err-msg">Please rate all dimensions before continuing.</div>
+      </div>
+
+      <!-- Q39 Checkboxes -->
+      <div class="q" id="q39-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q39</div>
+            <div class="q-text">Which <strong>skills or competencies</strong> did you actively practise or develop?<span class="req">★</span></div>
+            <div class="q-note">Not aspirationally — what you actually felt yourself doing.</div>
+          </div>
+          <div class="q-type-badge badge-check">Checkboxes</div>
+        </div>
+        <div class="check-list" id="q39-checks" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Critical thinking</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Research and analysis</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Formal public speaking</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Persuasive argumentation</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Active listening</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Policy drafting &amp; amendment writing</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Negotiation</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Strategic coalition-building</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Working under time pressure</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Cross-cultural collaboration</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Leadership</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Journalistic writing or reporting</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Adaptability &amp; problem-solving</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q39')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Professional networking</div></label>
+        </div>
+        <div class="err-msg">Please select at least one skill before continuing.</div>
+      </div>
+
+      <!-- Q40 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q40</div>
+            <div class="q-text">What is the <strong>single most valuable thing</strong> you take away from MEU Timișoara 2026?<span class="req">★</span></div>
+            <div class="q-note">A skill, a connection, a piece of knowledge, a moment of insight, or something entirely personal.</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q40" placeholder="Your answer..." rows="3"></textarea>
+        <div class="err-msg">Please write your answer before continuing.</div>
+      </div>
+
+      <!-- Q41 -->
+      <div class="q" id="q41-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q41</div>
+            <div class="q-text">Has MEU Timișoara 2026 influenced your <strong>interest in EU affairs or a career in EU institutions</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q41-radio">
+          <label class="radio-opt" onclick="selectRadio('q41',this,'Yes significantly, reinforced or opened a path')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes, significantly — it has reinforced or opened a path I'm now seriously considering</div></label>
+          <label class="radio-opt" onclick="selectRadio('q41',this,'Somewhat, deepened interest without changing plans')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Somewhat — it deepened my interest without changing my plans</div></label>
+          <label class="radio-opt" onclick="selectRadio('q41',this,'No change, already committed to this direction')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No change — I was already committed to this direction</div></label>
+          <label class="radio-opt" onclick="selectRadio('q41',this,'Made me more realistic about challenges')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">It actually made me more realistic about the challenges of EU institutions</div></label>
+          <label class="radio-opt" onclick="selectRadio('q41',this,'My interests lie elsewhere')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">My interests lie elsewhere — I came for a different reason</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q43 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q43</div>
+            <div class="q-text">How did your participation compare to <strong>other academic or professional development experiences</strong> you've had?</div>
+          </div>
+          <div class="q-type-badge badge-open">Paragraph</div>
+        </div>
+        <textarea id="q43" placeholder="e.g. compared to other MEU/MUN simulations, university seminars, internships..." rows="3"></textarea>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(7)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(7)">Next: About You <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 9 — About You
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-8">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge gold-badge">9</div>
+          <h2 class="sec-title">A Little About You</h2>
+        </div>
+        <p class="sec-desc">These questions are used purely for analysis. No individual responses will be attributed to any person.</p>
+      </div>
+
+      <!-- Q44 -->
+      <div class="q" id="q44-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q44</div>
+            <div class="q-text">In which body did you participate?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q44-radio">
+          <label class="radio-opt" onclick="selectRadio('q44',this,'EU Council (Minister role)')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">EU Council (Minister role)</div></label>
+          <label class="radio-opt" onclick="selectRadio('q44',this,'European Parliament (MEP role)')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">European Parliament (MEP role)</div></label>
+          <label class="radio-opt" onclick="selectRadio('q44',this,'Press Corps')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Press Corps</div></label>
+          <label class="radio-opt" onclick="selectRadio('q44',this,'Digital & Content Team')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Digital &amp; Content Team</div></label>
+          <label class="radio-opt" onclick="selectRadio('q44',this,'Organising Team / Staff')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Organising Team / Staff</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q45 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q45</div>
+            <div class="q-text">What is your <strong>country of origin</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-text">Short text</div>
+        </div>
+        <input type="text" id="q45" placeholder="Country name">
+        <div class="err-msg">Please write your country before continuing.</div>
+      </div>
+
+      <!-- Q46 -->
+      <div class="q" id="q46-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q46</div>
+            <div class="q-text">What is your <strong>age range</strong>?</div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q46-radio">
+          <label class="radio-opt" onclick="selectRadio('q46',this,'Under 20')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Under 20</div></label>
+          <label class="radio-opt" onclick="selectRadio('q46',this,'20-22')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">20 – 22</div></label>
+          <label class="radio-opt" onclick="selectRadio('q46',this,'23-25')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">23 – 25</div></label>
+          <label class="radio-opt" onclick="selectRadio('q46',this,'26-30')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">26 – 30</div></label>
+          <label class="radio-opt" onclick="selectRadio('q46',this,'Over 30')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Over 30</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q47 -->
+      <div class="q" id="q47-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q47</div>
+            <div class="q-text">Is this your <strong>first Model EU / Model UN experience</strong>?<span class="req">★</span></div>
+          </div>
+          <div class="q-type-badge badge-radio">Single choice</div>
+        </div>
+        <div class="radio-list" id="q47-radio">
+          <label class="radio-opt" onclick="selectRadio('q47',this,'Yes, first simulation experience')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">Yes — this was my first simulation experience</div></label>
+          <label class="radio-opt" onclick="selectRadio('q47',this,'No, 1-2 others before')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No — I've participated in 1 or 2 others before</div></label>
+          <label class="radio-opt" onclick="selectRadio('q47',this,'Experienced delegate, 3+ previous simulations')"><input type="radio"><div class="radio-circle"></div><div class="radio-text">No — I'm an experienced delegate with 3 or more previous simulations</div></label>
+        </div>
+        <div class="err-msg">Please select an option before continuing.</div>
+      </div>
+
+      <!-- Q48 -->
+      <div class="q" id="q48-card">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q48</div>
+            <div class="q-text">How did you <strong>hear about MEU Timișoara 2026</strong>?<span class="req">★</span></div>
+            <div class="q-note">Select all that apply.</div>
+          </div>
+          <div class="q-type-badge badge-check">Checkboxes</div>
+        </div>
+        <div class="check-list" id="q48-checks">
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Through my university / faculty / professor</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Recommended by a friend or colleague who attended</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Instagram / social media</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">A student organisation or association</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">Erasmus programme or coordinator</div></label>
+          <label class="check-opt" onclick="toggleCheck(this,'q48')"><input type="checkbox"><div class="check-sq"></div><div class="check-text">I've participated in a previous MEU Timișoara edition</div></label>
+        </div>
+        <div class="err-msg">Please select at least one option before continuing.</div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(8)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="nextSection(8)">Next: Final Thoughts <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 4l3 3-3 3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SECTION 10 — Final Thoughts
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-9">
+      <div class="sec-header">
+        <div class="sec-header-top">
+          <div class="sec-badge gold-badge">10</div>
+          <h2 class="sec-title">Last Word — Make It Count</h2>
+        </div>
+        <p class="sec-desc">Two questions. The most important ones in this entire form. Take your time.</p>
+      </div>
+
+      <div class="strategy-note">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#FFCC00" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M8 7v4M8 5v.5"/></svg>
+        <div class="strategy-note-text">We read every single response. These final answers are the ones that shape the next edition. <strong>Please write with the honesty you'd want from someone reviewing your own work.</strong></div>
+      </div>
+
+      <!-- Q49 — HIGHLIGHTED -->
+      <div class="q" id="q49-card" style="border:2px solid var(--gold);background:linear-gradient(135deg,#fffdf0,#fff)">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num" style="color:var(--amber);font-weight:700">Q49 — The Most Important Question</div>
+            <div class="q-text">If you were the <strong>Secretary-General of MEU Timișoara 2027</strong>, what is the ONE change you would make to the event — and why?<span class="req">★</span></div>
+            <div class="q-note">Not a list. Not "I would improve communication, logistics, and the social events." <strong>One thing.</strong> The thing you'd prioritise above all others. Justify it.</div>
+          </div>
+          <div class="q-type-badge badge-open" style="background:var(--amber-bg);color:var(--amber)">Paragraph ★</div>
+        </div>
+        <textarea id="q49" placeholder="Your answer..." rows="5"></textarea>
+        <div class="err-msg">This is required. Please write your answer before submitting.</div>
+      </div>
+
+      <!-- Q50 -->
+      <div class="q">
+        <div class="q-top">
+          <div class="q-label-wrap">
+            <div class="q-num">Q50</div>
+            <div class="q-text">Is there anything else — about any aspect of the event — you'd like to share with the organising team?</div>
+            <div class="q-note">This is your open space. Use it or leave it blank.</div>
+          </div>
+          <div class="q-type-badge badge-open">Optional</div>
+        </div>
+        <textarea id="q50" placeholder="Your answer (optional)..." rows="3"></textarea>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-outline" onclick="prevSection(9)">← Back</button>
+        <button class="btn btn-gold btn-lg" id="submitBtn" onclick="submitForm()">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h10M8 4l3 3-3 3"/><circle cx="11" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
+          Submit Feedback
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         SUCCESS STATE
+    ════════════════════════════════════════ -->
+    <div class="section-wrap" id="section-success">
+      <div class="success-wrap">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><path d="M6 16l7 7 13-13"/></svg>
+        </div>
+        <h2 class="success-title">Thank you.</h2>
+        <p class="success-sub">Your feedback has been recorded. Every response is read by a real person on the organising team — not skimmed, not averaged away, but read.</p>
+        <div class="success-detail">
+          <p>We use your feedback to make the next edition better — not to feel good about ourselves, but to genuinely improve.<br><br>
+          If you'd like to stay connected with MEU Timișoara or be notified about future editions, follow us on social media or reach out to the team directly.<br><br>
+          <em>— MEU Timișoara 2026 Organising Team · Universitatea de Vest din Timișoara</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end form-body -->
+</main>
+</div><!-- end layout -->
+
+<script>
+// ══════════════════════════════════════════════
+// REPLACE THIS URL WITH YOUR APPS SCRIPT URL
+// ══════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz665crDBe6k3-60McJg0XqcgVKzx_jEb3o2PX8RDHmfNzxbpcUgv6mLsrqif55F12U/exec';
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let currentSection = 0;
+const TOTAL_SECTIONS = 10;
+
+const scaleValues = {};
+const radioValues = {};
+const checkValues = {};
+const matrixValues = {};
+
+const SECTION_LABELS = [
+  'Overall Experience','The Simulation','Workshops & Speakers',
+  'Organisation & Communication','Accommodation & Meals','Social Events',
+  'Digital Tools','Personal Development','About You','Final Thoughts'
+];
+
+// ══════════════════════════════════════════════
+// SIDEBAR NAVIGATION
+// ══════════════════════════════════════════════
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = SECTION_LABELS.map((label, i) => `
+    <div class="nav-section${i===0?' active':''}" id="nav-${i}" onclick="jumpToSection(${i})">
+      <div class="nav-dot"><span>${i+1}</span></div>
+      <div class="nav-info">
+        <div class="nav-title">${label}</div>
+        <div class="nav-count">${getSectionQCount(i)} questions</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getSectionQCount(i) {
+  return [4,8,4,5,6,5,5,6,5,2][i];
+}
+
+function updateSidebar() {
+  document.querySelectorAll('.nav-section').forEach((el, i) => {
+    el.classList.remove('active','completed');
+    if(i === currentSection) el.classList.add('active');
+    else if(i < currentSection) el.classList.add('completed');
+  });
+  const pct = Math.round((currentSection / TOTAL_SECTIONS) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = currentSection + ' of ' + TOTAL_SECTIONS + ' sections complete';
+  document.getElementById('mobileProgressBar').style.width = pct + '%';
+  document.getElementById('mobileSectionLabel').textContent = 'Section ' + (currentSection+1) + ' of ' + TOTAL_SECTIONS;
+}
+
+function jumpToSection(idx) {
+  if(idx > currentSection) return;
+  showSection(idx);
+}
+
+// ══════════════════════════════════════════════
+// SECTION NAVIGATION
+// ══════════════════════════════════════════════
+function showSection(idx) {
+  document.querySelectorAll('.section-wrap').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + (idx === TOTAL_SECTIONS ? 'success' : idx)).classList.add('active');
+  currentSection = idx;
+  updateSidebar();
+  try { window.scrollTo({top:0,behavior:'smooth'}); } catch(e) { window.scrollTo(0,0); }
+  if(idx < TOTAL_SECTIONS) {
+    document.getElementById('formHero').style.display = '';
+  }
+}
+
+function nextSection(idx) {
+  if(!validateSection(idx)) return;
+  showSection(idx + 1);
+}
+
+function prevSection(idx) {
+  showSection(idx - 1);
+}
+
+// ══════════════════════════════════════════════
+// INPUT INTERACTIONS
+// ══════════════════════════════════════════════
+function selectScale(id, val, isGood) {
+  scaleValues[id] = val;
+  document.querySelectorAll('#' + id + '-scale .scale-btn').forEach(btn => {
+    btn.classList.remove('selected','gold-sel');
+  });
+  const btn = document.querySelector('#' + id + '-scale .scale-btn[data-val="'+val+'"]')
+    || document.querySelectorAll('#' + id + '-scale .scale-btn')[val - (id==='q2'?0:1)];
+  if(btn) {
+    btn.classList.add('selected');
+    if(isGood) btn.classList.add('gold-sel');
+  }
+  clearError(id + '-card');
+}
+
+function selectRadio(id, el, val) {
+  radioValues[id] = val;
+  el.closest('.radio-list').querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  clearError(id + '-card');
+}
+
+function toggleCheck(el, groupId) {
+  el.classList.toggle('checked');
+  if(!checkValues[groupId]) checkValues[groupId] = [];
+  const text = el.querySelector('.check-text').textContent.trim();
+  const idx = checkValues[groupId].indexOf(text);
+  if(idx === -1) checkValues[groupId].push(text);
+  else checkValues[groupId].splice(idx, 1);
+  clearError(groupId + '-card');
+}
+
+function matrixSelect(el) {
+  const row = el.closest('tr');
+  row.querySelectorAll('.matrix-radio').forEach(r => r.classList.remove('sel'));
+  row.querySelectorAll('.na-badge').forEach(n => n.classList.remove('sel'));
+  el.classList.add('sel');
+  const cells = row.querySelectorAll('td');
+  let val = 0;
+  cells.forEach((td, i) => {
+    if(i === 0) return;
+    td.querySelectorAll('.matrix-radio').forEach((r, j) => {
+      if(r === el) val = j + 1;
+    });
+  });
+  matrixValues[row.dataset.key] = val;
+}
+
+function matrixNASelect(el) {
+  const row = el.closest('tr');
+  row.querySelectorAll('.matrix-radio').forEach(r => r.classList.remove('sel'));
+  row.querySelectorAll('.na-badge').forEach(n => n.classList.remove('sel'));
+  el.classList.add('sel');
+  matrixValues[row.dataset.key] = 'N/A';
+}
+
+function clearError(cardId) {
+  const card = document.getElementById(cardId);
+  if(card) card.classList.remove('error');
+}
+
+// ══════════════════════════════════════════════
+// VALIDATION
+// ══════════════════════════════════════════════
+function validateSection(idx) {
+  let valid = true;
+
+  function requireScale(id) {
+    if(scaleValues[id] === undefined) {
+      showError(id + '-card'); valid = false;
+    }
+  }
+  function requireRadio(id) {
+    if(!radioValues[id]) {
+      showError(id + '-card'); valid = false;
+    }
+  }
+  function requireText(id) {
+    const el = document.getElementById(id);
+    if(!el || !el.value.trim()) {
+      el.closest('.q').classList.add('error'); valid = false;
+    }
+  }
+  function requireMatrix(matrixId) {
+    const rows = document.querySelectorAll('#' + matrixId + ' tr[data-key]');
+    let allFilled = true;
+    rows.forEach(row => {
+      if(matrixValues[row.dataset.key] === undefined) allFilled = false;
+    });
+    if(!allFilled) {
+      const card = document.getElementById(matrixId.replace('-matrix','-card'));
+      if(card) showError(matrixId.replace('-matrix','-card'));
+      valid = false;
+    }
+  }
+  function requireCheck(id) {
+    if(!checkValues[id] || checkValues[id].length === 0) {
+      showError(id + '-card'); valid = false;
+    }
+  }
+
+  if(idx === 0) {
+    requireScale('q1'); requireScale('q2');
+    requireRadio('q3'); requireText('q4');
+  } else if(idx === 1) {
+    requireMatrix('q5-matrix'); requireText('q6');
+    requireRadio('q7'); requireRadio('q8');
+    requireScale('q11'); requireRadio('q12');
+  } else if(idx === 2) {
+    requireMatrix('q13-matrix'); requireRadio('q16');
+  } else if(idx === 3) {
+    requireMatrix('q17-matrix'); requireScale('q18'); requireRadio('q21');
+  } else if(idx === 4) {
+    requireRadio('q22'); requireMatrix('q23-matrix');
+    requireRadio('q24'); requireScale('q25'); requireRadio('q26');
+  } else if(idx === 5) {
+    requireCheck('q28'); requireMatrix('q29-matrix');
+    requireScale('q30'); requireRadio('q32');
+  } else if(idx === 6) {
+    requireRadio('q33'); requireMatrix('q34-matrix');
+    requireRadio('q35'); requireRadio('q37');
+  } else if(idx === 7) {
+    requireMatrix('q38-matrix'); requireCheck('q39');
+    requireText('q40'); requireRadio('q41');
+  } else if(idx === 8) {
+    requireRadio('q44'); requireText('q45'); requireRadio('q47'); requireCheck('q48');
+  } else if(idx === 9) {
+    requireText('q49');
+  }
+
+  if(!valid) {
+    const firstErr = document.querySelector('.q.error');
+    if(firstErr) firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  return valid;
+}
+
+function showError(cardId) {
+  const card = document.getElementById(cardId);
+  if(card) card.classList.add('error');
+}
+
+// ══════════════════════════════════════════════
+// COLLECT DATA
+// ══════════════════════════════════════════════
+function collectData() {
+  const g = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  };
+  const s = (id) => scaleValues[id] !== undefined ? String(scaleValues[id]) : '';
+  const r = (id) => radioValues[id] || '';
+  const c = (id) => (checkValues[id] || []).join('; ') || '';
+  const m = (key) => matrixValues[key] !== undefined ? String(matrixValues[key]) : '';
+
+  return {
+    'Timestamp': new Date().toISOString(),
+    'Q1 - Overall rating (1-10)': s('q1'),
+    'Q2 - NPS (0-10)': s('q2'),
+    'Q3 - Expectations met': r('q3'),
+    'Q4 - Three words': g('q4'),
+    'Q5 - Simulation realism': m('Q5 - Simulation realism'),
+    'Q5 - Fellow participants preparation': m('Q5 - Fellow participants preparation'),
+    'Q5 - Topic relevance': m('Q5 - Topic relevance'),
+    'Q5 - Chairs effectiveness': m('Q5 - Chairs effectiveness'),
+    'Q5 - Press corps quality': m('Q5 - Press corps quality'),
+    'Q5 - Rules clarity': m('Q5 - Rules clarity'),
+    'Q5 - Pacing': m('Q5 - Pacing'),
+    'Q6 - Better policy topic': g('q6'),
+    'Q7 - Role preparation': r('q7'),
+    'Q8 - EU understanding improvement': r('q8'),
+    'Q9 - Most challenging moment': g('q9'),
+    'Q10 - One simulation change': g('q10'),
+    'Q11 - Simulation overall rating': s('q11'),
+    'Q12 - YouthPass clarity': r('q12'),
+    'Q13 - Workshop Alina Girbea': m('Q13 - Workshop Alina Girbea'),
+    'Q13 - Workshop Nicu Stefanuta': m('Q13 - Workshop Nicu Stefanuta'),
+    'Q13 - Workshop Simina Tulbure': m('Q13 - Workshop Simina Tulbure'),
+    'Q14 - Most impactful workshop': g('q14'),
+    'Q15 - Topics or speakers missing': g('q15'),
+    'Q16 - Workshop-simulation integration': r('q16'),
+    'Q17 - Pre-event communication': m('Q17 - Pre-event communication'),
+    'Q17 - Programme clarity': m('Q17 - Programme clarity'),
+    'Q17 - Team responsiveness': m('Q17 - Team responsiveness'),
+    'Q17 - Handling changes': m('Q17 - Handling changes'),
+    'Q17 - Opening ceremony': m('Q17 - Opening ceremony'),
+    'Q17 - Closing ceremony': m('Q17 - Closing ceremony'),
+    'Q18 - Organising team rating': s('q18'),
+    'Q19 - Information gaps': g('q19'),
+    'Q20 - Top operational improvement': g('q20'),
+    'Q21 - Safe Person mechanism': r('q21'),
+    'Q22 - Accommodation assigned': r('q22'),
+    'Q23 - Room cleanliness': m('Q23 - Room cleanliness'),
+    'Q23 - Sleeping comfort': m('Q23 - Sleeping comfort'),
+    'Q23 - Facilities access': m('Q23 - Facilities access'),
+    'Q23 - Check-in process': m('Q23 - Check-in process'),
+    'Q23 - Room assignment': m('Q23 - Room assignment'),
+    'Q24 - Public transport ease': r('q24'),
+    'Q25 - Meals quality': s('q25'),
+    'Q26 - Dietary requirements': r('q26'),
+    'Q27 - Food feedback': g('q27'),
+    'Q28 - Social events attended': c('q28'),
+    'Q29 - Gala Night rating': m('Q29 - Gala Night rating'),
+    'Q29 - Football match rating': m('Q29 - Football match rating'),
+    'Q29 - Mafia Night rating': m('Q29 - Mafia Night rating'),
+    'Q29 - Karaoke rating': m('Q29 - Karaoke rating'),
+    'Q29 - Clubbing Night rating': m('Q29 - Clubbing Night rating'),
+    'Q30 - Social vs simulation balance': s('q30'),
+    'Q31 - Social events changes': g('q31'),
+    'Q32 - Entry fees fairness': r('q32'),
+    'Q33 - Guide usage frequency': r('q33'),
+    'Q34 - Agenda section rating': m('Q34 - Agenda section rating'),
+    'Q34 - Accommodation section rating': m('Q34 - Accommodation section rating'),
+    'Q34 - Transport section rating': m('Q34 - Transport section rating'),
+    'Q34 - EU map rating': m('Q34 - EU map rating'),
+    'Q34 - Hemicycle rating': m('Q34 - Hemicycle rating'),
+    'Q34 - Floor plan rating': m('Q34 - Floor plan rating'),
+    'Q34 - Checklist rating': m('Q34 - Checklist rating'),
+    'Q34 - Social events section rating': m('Q34 - Social events section rating'),
+    'Q34 - Emergency section rating': m('Q34 - Emergency section rating'),
+    'Q34 - Overall design rating': m('Q34 - Overall design rating'),
+    'Q35 - Added to home screen': r('q35'),
+    'Q36 - Missing guide features': g('q36'),
+    'Q37 - Printed vs digital': r('q37'),
+    'Q38 - EU understanding impact': m('Q38 - EU understanding impact'),
+    'Q38 - Public speaking impact': m('Q38 - Public speaking impact'),
+    'Q38 - Negotiation impact': m('Q38 - Negotiation impact'),
+    'Q38 - Cross-cultural impact': m('Q38 - Cross-cultural impact'),
+    'Q38 - Connections quality': m('Q38 - Connections quality'),
+    'Q38 - Self-confidence impact': m('Q38 - Self-confidence impact'),
+    'Q39 - Skills developed': c('q39'),
+    'Q40 - Most valuable takeaway': g('q40'),
+    'Q41 - EU career influence': r('q41'),
+    'Q43 - Comparison to other experiences': g('q43'),
+    'Q44 - Body participated in': r('q44'),
+    'Q45 - Country of origin': g('q45'),
+    'Q46 - Age range': r('q46'),
+    'Q47 - First simulation experience': r('q47'),
+    'Q48 - How heard about MEU': c('q48'),
+    'Q49 - Secretary-General change': g('q49'),
+    'Q50 - Any other feedback': g('q50')
+  };
+}
+
+// ══════════════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════════════
+async function submitForm() {
+  if(!validateSection(9)) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('btn-loading');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const data = collectData();
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    showSection(TOTAL_SECTIONS);
+    document.getElementById('formHero').style.display = 'none';
+  } catch(err) {
+    btn.classList.remove('btn-loading');
+    btn.innerHTML = `<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 7h10M8 4l3 3-3 3"/></svg> Submit Feedback`;
+    btn.disabled = false;
+    alert('There was a network error. Please check your connection and try again. Your answers are preserved.');
+  }
+}
+
+// ══════════════════════════════════════════════
+// SCALE BUTTON DATA-VAL FIX
+// ══════════════════════════════════════════════
+function fixScaleButtons() {
+  ['q11','q18','q25','q30'].forEach(id => {
+    const btns = document.querySelectorAll('#' + id + '-scale .scale-btn');
+    btns.forEach((btn, i) => {
+      btn.setAttribute('data-val', i + 1);
+    });
+  });
+  const q2btns = document.querySelectorAll('#q2-scale .scale-btn');
+  q2btns.forEach((btn, i) => btn.setAttribute('data-val', i));
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildSidebar();
+  updateSidebar();
+  fixScaleButtons();
+});
+</script>
+</body>
+</html>
