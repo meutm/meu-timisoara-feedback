@@ -1520,6 +1520,7 @@ function selectRadio(id, el, val) {
 }
 
 function toggleCheck(el, groupId) {
+  if(event) event.preventDefault();
   el.classList.toggle('checked');
   if(!checkValues[groupId]) checkValues[groupId] = [];
   const text = el.querySelector('.check-text').textContent.trim();
