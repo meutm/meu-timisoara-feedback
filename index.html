@@ -1485,6 +1485,7 @@ function showSection(idx) {
   if(idx < TOTAL_SECTIONS) {
     document.getElementById('formHero').style.display = '';
   }
+  sessionStorage.setItem('meu_section', idx); // ← adaugă asta
 }
 
 function nextSection(idx) {
@@ -1655,7 +1656,12 @@ function collectData() {
   const m = (key) => matrixValues[key] !== undefined ? String(matrixValues[key]) : '';
 
   return {
-    'Timestamp': new Date().toISOString(),
+    'Timestamp': (function() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate())
+    + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+})(),
     'Q1 - Overall rating (1-10)': s('q1'),
     'Q2 - NPS (0-10)': s('q2'),
     'Q3 - Expectations met': r('q3'),
@@ -1792,8 +1798,13 @@ function fixScaleButtons() {
 // ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
   buildSidebar();
-  updateSidebar();
   fixScaleButtons();
+  const saved = sessionStorage.getItem('meu_section');
+  if(saved && parseInt(saved) > 0) {
+    showSection(parseInt(saved));
+  } else {
+    updateSidebar();
+  }
 });
 </script>
 </body>
